@@ -38,4 +38,9 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxandroid:1.0.1'
 
+    //日志Logger
+    compile 'com.orhanobut:logger:1.15'
+
+    //右滑退出Activity
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
 }

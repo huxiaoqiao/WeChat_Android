@@ -3,14 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="okii.com.wechat_android.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".module.main.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/bt_test"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Test"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#D6DCDC"
+            />
+
+        <okii.com.wechat_android.widget.WATabHost
+            android:id="@+id/tab_host"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:paddingBottom="1dp"
+            android:orientation="horizontal"
+
+            >
+
+            <okii.com.wechat_android.widget.WATabButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+
+                />
+
+            <okii.com.wechat_android.widget.WATabButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <okii.com.wechat_android.widget.WATabButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <okii.com.wechat_android.widget.WATabButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+
+        </okii.com.wechat_android.widget.WATabHost>
+
+
+
+    </LinearLayout>
+
+
 </RelativeLayout>
