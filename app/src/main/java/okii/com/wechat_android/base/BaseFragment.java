@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.MvpView;
@@ -16,101 +18,34 @@ import com.hannesdorfmann.mosby.mvp.delegate.FragmentMvpDelegate;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by SteveJoe on 16/8/18.
  */
-public abstract class BaseFragment<V extends MvpView,P extends MvpPresenter<V>> extends MvpFragment<V,P> {
+public abstract class BaseFragment<V extends MvpView,P extends MvpBasePresenter<V>> extends MvpFragment<V,P>{
     public BaseFragment() {
     }
 
-    @NonNull
-    protected FragmentMvpDelegate<V, P> getMvpDelegate() {
-        if(this.mvpDelegate == null) {
-            this.mvpDelegate = new FragmentDelegateImpl(this);
-        }
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        int rootLayoutId = getRootLayoutId();
+        View rootView = inflater.inflate(rootLayoutId,container,false);
 
-        return this.mvpDelegate;
+        ButterKnife.bind(this,rootView);
+        initView();
+        initData();
+        setListener();
+        return rootView;
     }
 
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
+    protected abstract void setListener();
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    protected abstract void initData();
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+    protected abstract void initView();
 
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
+    public abstract int getRootLayoutId();
 
-    public void onStart() {
-        super.onStart();
-    }
-
-    public void onResume() {
-        super.onResume();
-    }
-
-    public void onPause() {
-        super.onPause();
-    }
-
-    public void onStop() {
-        super.onStop();
-    }
-
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    public abstract void onClickButton();
-
-    public abstract boolean onUpSlide();
-
-    public abstract boolean onDownSlide();
-
-    public abstract boolean onLeftSlide();
-
-    public abstract boolean onRightSlide();
-
-    public void startActivity(Intent intent) {
-        if(this.isIntentAvailable(intent)) {
-            super.startActivity(intent);
-        }
-
-    }
-
-    public void startActivityForResult(Intent intent, int requestCode) {
-        if(this.isIntentAvailable(intent)) {
-            super.startActivityForResult(intent, requestCode);
-        }
-
-    }
-
-    private boolean isIntentAvailable(Intent intent) {
-        if(intent == null) {
-            return false;
-        } else {
-            PackageManager packageManager = this.getContext().getPackageManager();
-            List list = packageManager.queryIntentActivities(intent, 1);
-            return list.size() > 0;
-        }
-    }
 }

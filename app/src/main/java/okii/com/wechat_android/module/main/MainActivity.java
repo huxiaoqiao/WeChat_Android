@@ -1,44 +1,51 @@
 package okii.com.wechat_android.module.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.Button;
+import android.support.v4.view.ViewPager;
+import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okii.com.wechat_android.R;
 import okii.com.wechat_android.base.BaseActivity;
-import okii.com.wechat_android.test.TestActivity;
+import okii.com.wechat_android.module.main.adpter.MainTabAdapter;
+import okii.com.wechat_android.widget.MFViewPager;
+import okii.com.wechat_android.widget.WATabHost;
 
-public class MainActivity extends BaseActivity<IMainView, MainPresenter> {
+public class MainActivity extends BaseActivity<IMainView, MainPresenter> implements WATabHost.OncheckedChangeListenr,ViewPager.OnPageChangeListener{
 
-    @BindView(R.id.bt_test)
-    Button btTest;
+
+    @BindView(R.id.viewpager)
+    MFViewPager viewpager;
+    @BindView(R.id.tab_host)
+    WATabHost tabHost;
+    @BindView(R.id.ll_tabbar)
+    LinearLayout llTabbar;
+
+    private MainTabAdapter tabAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        // FIXME: 16/8/18 测试滑动返回
-        //btTest = (Button) findViewById(R.id.bt_test);
-        btTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, TestActivity.class);
-                startActivity(intent);
-            }
-        });
+        initMainTab();
     }
 
-    @NonNull
-    @Override
-    public MainPresenter createPresenter() {
-        return new MainPresenter();
-    }
+    /*
+     * 初始化tabbar
+     */
+    private void initMainTab() {
 
+        tabAdapter = new MainTabAdapter(getSupportFragmentManager());
+
+        viewpager.setAdapter(tabAdapter);
+        tabAdapter.clear();
+        viewpager.setOffscreenPageLimit(4);
+
+
+    }
 
     @Override
     public void initData() {
@@ -54,4 +61,39 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenter> {
     public void loadData() {
 
     }
+
+
+    @NonNull
+    @Override
+    public MainPresenter createPresenter() {
+        return new MainPresenter();
+    }
+
+
+
+    /**
+     * viewpager滑动到当前位置
+     * @param position
+     */
+    @Override
+    public void onPageSelected(int position) {
+        tabHost.setChecked(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onCheckedChange(int checkedPostion) {
+         viewpager.setCurrentItem(checkedPostion);
+    }
+
+
 }

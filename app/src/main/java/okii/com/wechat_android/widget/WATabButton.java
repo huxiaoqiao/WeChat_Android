@@ -20,6 +20,7 @@ import okii.com.wechat_android.R;
 public class WATabButton extends RelativeLayout {
 
 
+
     private ImageView ivTabItemIcon;
     private TextView tvTabItemTitle;
 
@@ -43,24 +44,27 @@ public class WATabButton extends RelativeLayout {
     private void initLayout(Context context, AttributeSet attrs) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.main_tab_bottom_item, this);
 
-
         ivTabItemIcon = (ImageView)contentView.findViewById(R.id.iv_tab_item_icon);
         tvTabItemTitle = (TextView)contentView.findViewById(R.id.tv_tab_item_icon);
 
-        TypedArray typedArray = getResources().obtainAttributes(attrs,R.styleable.tab_button);
-        Drawable drawable = typedArray.getDrawable(R.styleable.tab_button_drawableTop);
-        String text = typedArray.getString(R.styleable.tab_button_tabText);
-        String attrStr = typedArray.getString(R.styleable.tab_button_drawbleTopAttr);
-        typedArray.recycle();
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs,R.styleable.tab_button,0,0);
 
-        tvTabItemTitle.setText(text);
-        if (drawable != null) {
-            ivTabItemIcon.setImageDrawable(drawable);
-        }else {
-            TypedValue typedValue = new TypedValue();
-            getContext().getTheme().resolveAttribute(getResources().getIdentifier(attrStr,"attr",context.getPackageName()),typedValue,true);
-            ivTabItemIcon.setImageResource(typedValue.resourceId);
+        try {
+            Drawable d = a.getDrawable(R.styleable.tab_button_drawableTop);
+            String text = a.getString(R.styleable.tab_button_tabText);
+            String attrStr = a.getString(R.styleable.tab_button_drawbleTopAttr);
+
+            //设置标题
+            tvTabItemTitle.setText(text);
+            //设置Icon
+            if (d != null) {
+                ivTabItemIcon.setImageDrawable(d);
+            }
+
+        } finally {
+            a.recycle();
         }
+
 
     }
 

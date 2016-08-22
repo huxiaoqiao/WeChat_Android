@@ -4,16 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".module.main.MainActivity">
+    tools:context=".module.main.MainActivity"
+    >
 
-    <Button
-        android:id="@+id/bt_test"
+    <okii.com.wechat_android.widget.MFViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Test"
-        />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_tabbar"
+        >
+    </okii.com.wechat_android.widget.MFViewPager>
 
     <LinearLayout
+        android:id="@+id/ll_tabbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -41,22 +44,38 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
 
+                app:drawableTop="@drawable/tab_weixin"
+                app:tabText="微信"
+
                 />
 
             <okii.com.wechat_android.widget.WATabButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+
+                app:drawableTop="@drawable/tab_contact_list"
+                app:tabText="通讯录"
+
+                />
 
             <okii.com.wechat_android.widget.WATabButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+
+                app:drawableTop="@drawable/tab_find"
+                app:tabText="发现"
+                />
 
             <okii.com.wechat_android.widget.WATabButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+
+                app:drawableTop="@drawable/tab_profile"
+                app:tabText="我"
+                />
 
 
         </okii.com.wechat_android.widget.WATabHost>
